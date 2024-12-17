@@ -1,6 +1,8 @@
 import React, {useState, useEffect}  from "react";
 import './TodoList.css'
 import Icone from './assets/icon.png'
+import IconeFiltro from './assets/filtro.png'
+import BuscaLista from "./BuscaLista";
 
 function TodoList(){
 
@@ -32,6 +34,12 @@ function TodoList(){
     document.getElementById('input-entrada').focus();
   }
 
+  const [visivel, setVisivel] = useState(false);
+
+  function filtro(){
+      setVisivel(!visivel);
+  }
+
   function clicou(index){
     const listaAux = [...lista];
     listaAux[index].isCompleted = !listaAux[index].isCompleted
@@ -51,7 +59,9 @@ function TodoList(){
   return(
     <div>
       <h1>Lista de Tarefas</h1>
+      
       <form onSubmit={adicionaItem} >
+        <button onClick={() => {filtro()}} className="filter"><img className="iconFiltro" src={IconeFiltro} /></button>
         <input
           id='input-entrada'
           type="text"
@@ -61,6 +71,7 @@ function TodoList(){
         />
         <button className="add" type="submit">Add</button>
       </form>
+      {visivel && <BuscaLista lista={lista}/>}
       <div className="listaTarefas">
         <div style={{textAlign: 'center'}}>
           { lista.length < 1 
@@ -79,7 +90,6 @@ function TodoList(){
           lista.length > 0 &&
           <button onClick={()=> deletaTudo()} className="deleteAll">Deletar todas</button>
         }
-
       </div>
     </div>
   )

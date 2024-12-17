@@ -2,7 +2,8 @@
 
 body{
   background: #222435;
-   font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto', sans-serif;
+  color: white;
 }
 
 *:focus{
@@ -13,6 +14,10 @@ h1{
   font-weight: 900;
   color: #7d83b9;
   text-align: center;
+}
+
+ul{
+  list-style-type: none;
 }
 
 form{
@@ -33,7 +38,7 @@ button.add{
   color: white;
   cursor: pointer;
   padding: 10px 25px;
-  height: 61px;
+  height: 62px;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 }
@@ -41,6 +46,26 @@ button.add{
 button.add:hover{
   color: white;
   background: #363f88;
+}
+
+button.filter{
+  position: absolute;
+  border: none;
+  background: #363b65;
+  cursor: pointer;
+  padding: 10px 25px;
+  height: 62px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+button.filter:hover{
+  color: white;
+  background: #363f88;
+}
+
+.filter img{
+  width: 19px;
 }
 
 .listaTarefas{
@@ -126,10 +151,10 @@ input{
   height: 60px;
   background: #2d3046;
   border: none;
-  padding-left: 30px;
   font-size: 16px;
-  border-radius: 10px;
+  border-radius: 12px;
   color: white;
+  text-align: center;
 }
 
 .icon{
