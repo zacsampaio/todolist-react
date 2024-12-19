@@ -82,6 +82,7 @@ button.filter:hover{
   border: 1px solid #363b65;
   margin-bottom: 10px;
   cursor: pointer;
+  position: relative;
 }
 
 .item:hover{
@@ -89,6 +90,7 @@ button.filter:hover{
 }
 
 .item span{
+  flex-grow: 1;
   width: 100%;
   text-align: start;
   color: white;
