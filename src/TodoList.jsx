@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./TodoList.css";
 import Icone from "./assets/icon.png";
 import IconeFiltro from "./assets/filtro.png";
+import EstrelaMarcada from "./assets/estrela.png";
+import EstrelaNaoMarcada from "./assets/estrelaNaoMarcada.png";
 
 function TodoList() {
   const [lista, setLista] = useState([]);
@@ -41,6 +43,7 @@ function TodoList() {
           text: novoItem,
           id: state.length > 0 ? state[state.length - 1].id + 1 : 1,
           isCompleted: false,
+          isPrioridade: 0,
         },
       ];
       localStorage.setItem("Lista", JSON.stringify(novaLista));
@@ -48,6 +51,19 @@ function TodoList() {
     });
     setNovoItem("");
     document.getElementById("input-entrada").focus();
+  }
+
+  function definePrioridade(id, valor){
+    setLista((prevLista) => {
+      const novaLista = prevLista.map((item) => {
+        if (item.id === id) {
+          item.isPrioridade = valor;
+        }
+        return item;
+      });
+      localStorage.setItem("Lista", JSON.stringify(novaLista));
+      return novaLista;
+    })
   }
 
   function clicou(id) {
@@ -105,7 +121,7 @@ function TodoList() {
           }}
           placeholder="Adicione uma tarefa"
         />
-        <button className="add" type="submit" style={{fontWeight: '300', fontSize: '25px'}}>
+        <button className="add" type="submit" style={{fontWeight: '700', fontSize: '25px'}}>
           +
         </button>
       </form>
@@ -130,6 +146,18 @@ function TodoList() {
                 key={item.id}
                 className={item.isCompleted ? "item completo" : "item"}
               >
+                <button 
+                  onClick={() => definePrioridade(item.id, 1)}
+                  className={item.isPrioridade >= 1? 'botao-selecionado' : ""}
+                ><img className="estrela" src={item.isPrioridade >= 1? EstrelaMarcada : EstrelaNaoMarcada}/></button>
+                <button 
+                  onClick={() => definePrioridade(item.id, 2)}
+                  className={item.isPrioridade >= 2 ? 'botao-selecionado' : ""}
+                ><img className="estrela" src={item.isPrioridade >= 2 ? EstrelaMarcada : EstrelaNaoMarcada}/></button>
+                <button 
+                  onClick={() => definePrioridade(item.id, 3)}
+                  className={item.isPrioridade >= 3 ? 'botao-selecionado' : ""}
+                ><img className="estrela" src={item.isPrioridade >= 3 ? EstrelaMarcada : EstrelaNaoMarcada}/></button>
                 <span
                   onClick={() => {
                     clicou(item.id);

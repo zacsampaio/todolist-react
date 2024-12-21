@@ -116,6 +116,22 @@ button.filter:hover{
   text-decoration: line-through;
 }
 
+button{
+  border: transparent;
+  background-color: transparent;
+
+}
+
+.estrela{
+  width: 20px;
+  background: none;
+  cursor: pointer;
+}
+
+.estrela:hover{
+  transform: scale(1.3);
+}
+
 button.del{
   background: none;
   border: none;
