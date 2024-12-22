@@ -242,10 +242,51 @@ input{
 
   form.filtros{
     width: 100%;
-    font-size: 10px;
   }
 
   .listaTarefas{
     width: 100%;
   }
+}
+
+@media screen and (max-width: 900px){
+  form.addItem{
+    width: 100%;
+  }
+
+  form.filtros{
+    width: 100%;
+  }
+
+  .listaTarefas{
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 500px){
+  form.addItem{
+    max-width: 100%;
+  }
+
+  form.filtros{
+    max-width: 100%;
+  }
+
+  .listaTarefas{
+    max-width: 100%;
+  }
+
+  input::placeholder{
+    font-size: 14px;
+  }
+
+  .listaTarefas .item span {
+    font-size: 14px;
+    flex-wrap: nowrap;
+  }
+
+  .listaTarefas .item button {
+    font-size: 14px;
+  }
+
 }
