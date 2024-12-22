@@ -20,7 +20,7 @@ ul{
   list-style-type: none;
 }
 
-form{
+form.addItem{
   display: flex;
   position: relative;
   width: 600px;
@@ -67,6 +67,31 @@ button.filter:hover{
 .filter img{
   width: 19px;
 }
+
+form.filtros{
+  display: flex;
+  position: relative;
+  width: 600px;
+  height: 60px;
+  margin: auto;
+  margin-bottom: 60px;
+}
+
+form.filtros button{
+  position: absolute;
+  border: none;
+  background: #363b65;
+  cursor: pointer;
+  padding: 10px 25px;
+  height: 62px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+form.filtros button:hover{
+  background: #363f88;
+}
+
 
 .listaTarefas{
   display: flex;
@@ -119,7 +144,6 @@ button.filter:hover{
 button{
   border: transparent;
   background-color: transparent;
-
 }
 
 .estrela{
@@ -131,6 +155,34 @@ button{
 .estrela:hover{
   transform: scale(1.3);
 }
+
+.listaAberta{
+  position: absolute;
+  margin-top: 60px;
+  padding: 3px;
+}
+
+.listaAberta li{
+  cursor: pointer;
+  margin-top: 5px;
+  margin-left: 70px;
+  color: #7d83b9;
+  box-shadow: #151627;
+  transition: transform 0.5s ease;
+}
+
+.listaAberta li:hover{
+  transform: scale(1.3) translateX(20px);
+  color: #41477e;
+}
+
+.erroMensagem{
+  position: absolute;
+  margin-top: 75px;
+  margin-left: 25px;
+  color: #ff0000;
+}
+
 
 button.del{
   background: none;
@@ -173,6 +225,10 @@ input{
   border-radius: 12px;
   color: white;
   text-align: center;
+}
+
+.iconFiltro{
+  width: 20px;
 }
 
 .icon{

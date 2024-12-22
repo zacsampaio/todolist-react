@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./TodoList.css";
 import Icone from "./assets/icon.png";
 import IconeFiltro from "./assets/filtro.png";
+import IconeBusca from "./assets/busca.png";
 import EstrelaMarcada from "./assets/estrela.png";
 import EstrelaNaoMarcada from "./assets/estrelaNaoMarcada.png";
 
@@ -11,7 +12,10 @@ function TodoList() {
   const [novoItem, setNovoItem] = useState("");
   const [busca, setBusca] = useState("");
   const [visivel, setVisivel] = useState(false);
-
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [filtroSelecionado, setFiltroSelecionado] = useState("Nome");
+  const [erroPrioridade, setErroPrioridade] = useState("");
+ 
   useEffect(() => {
     try {
       const listaStorage = localStorage.getItem("Lista");
@@ -24,12 +28,31 @@ function TodoList() {
   }, []);
 
   useEffect(() => {
-    setListaVisivel(
-      lista.filter((item) =>
-        item.text.toLowerCase().includes(busca.toLowerCase())
-      )
-    );
-  }, [lista, busca]);
+    const listaFiltrada = lista.filter((item) => {
+      switch (filtroSelecionado) {
+        case "Nome":
+          return item.text.toLowerCase().includes(busca.toLowerCase());
+  
+        case "Prioridade":
+          if (busca && (isNaN(busca) || busca < 1 || busca > 3)) {
+            setErroPrioridade("Informe apenas os números 1, 2 ou 3, para buscar as respectivas prioridades!");
+            return false;
+          }
+          setErroPrioridade("");
+          return item.isPrioridade.toString().includes(busca);
+  
+        case "Concluidas":
+          return item.isCompleted === true;
+  
+        case "Não Concluidas":
+          return item.isCompleted === false;
+  
+        default:
+          return true;
+      }
+    });
+    setListaVisivel(listaFiltrada);
+  }, [lista, busca, filtroSelecionado]);
 
   function adicionaItem(form) {
     form.preventDefault();
@@ -96,21 +119,35 @@ function TodoList() {
     setBusca(textoBusca);
   }
 
-  function toggleFiltro() {
+  function buscarItens() {
     setVisivel(!visivel);
     if (!visivel) {
       setListaVisivel(lista);
       setBusca("");
+      setErroPrioridade("");
     }
+  }
+
+  function listaSuspensa(){
+    setMenuOpen((prev) => (!prev));
+    setBusca("");
+    setErroPrioridade("");
+  }
+
+  function handleClick(filtro){
+    setFiltroSelecionado(filtro);
+    setMenuOpen(false);
+    setBusca("");
+    setErroPrioridade("");
   }
 
   return (
     <div>
       <h1>Lista de Tarefas</h1>
 
-      <form onSubmit={adicionaItem}>
-        <button type="button" onClick={toggleFiltro} className="filter">
-          <img className="iconFiltro" src={IconeFiltro} />
+      <form onSubmit={adicionaItem} className="addItem">
+        <button type="button" onClick={buscarItens} className="filter">
+          <img className="iconFiltro" src={IconeBusca} />
         </button>
         <input
           id="input-entrada"
@@ -127,13 +164,39 @@ function TodoList() {
       </form>
 
       {visivel && (
-        <input
-          type="text"
-          value={busca}
-          onChange={filtrarTarefas}
-          placeholder="Filtre suas tarefas"
-          style={{ width: "550px", margin: "10px auto" }}
-        />
+        <form className="filtros" style={{ marginBottom: menuOpen ? "110px" : "20px" }}>
+          {menuOpen && (
+            <div>
+              <ul className="listaAberta">
+                <li onClick={() => handleClick("Nome")}>➥ Nome</li>
+                <li onClick={() => handleClick("Prioridade")}>➥ Prioridade</li>
+                <li onClick={() => handleClick("Concluidas")}>➥ Concluídas</li>
+                <li onClick={() => handleClick("Não Concluidas")}>➥ Não Concluídas</li>
+              </ul>
+            </div>
+          )}
+          <button type="button" onClick={listaSuspensa}>
+            <img className="iconFiltro" src={IconeFiltro} />
+          </button>
+          <input
+            type="text"
+            value={busca}
+            onChange={filtrarTarefas}
+            placeholder={
+              filtroSelecionado === 'Nome'
+                ? "Nome: Busque suas tarefas!"
+                : filtroSelecionado === "Concluidas"
+                ? "Concluídas: Busque tarefas concluídas!"
+                : filtroSelecionado === "Não Concluidas"
+                ? "Não Concluídas: Busque tarefas não concluídas!"
+                : "Prioridade: Busque suas tarefas (Ex: 1, 2 ou 3)"
+            }
+          />
+          {erroPrioridade && 
+            <div className="erroMensagem">
+              {erroPrioridade}
+            </div>}
+        </form>
       )}
 
       <div className="listaTarefas">
