@@ -236,7 +236,11 @@ input{
 }
 
 @media screen and (max-width: 900px){
-  form{
+  form.addItem{
+    width: 100%;
+  }
+
+  form.filtros{
     width: 100%;
   }
 
