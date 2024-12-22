@@ -72,6 +72,7 @@ function TodoList() {
       localStorage.setItem("Lista", JSON.stringify(novaLista));
       return novaLista;
     });
+    setVisivel(false)
     setNovoItem("");
     document.getElementById("input-entrada").focus();
   }
