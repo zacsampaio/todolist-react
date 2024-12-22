@@ -23,8 +23,10 @@ ul{
 form.addItem{
   display: flex;
   position: relative;
-  width: 600px;
-  height: 60px;
+  width: 90%;
+  max-width: 600px;
+  height: auto;
+  min-height: 3rem;
   margin: 30px auto;
   margin-bottom: 60px;
 }
@@ -71,8 +73,10 @@ button.filter:hover{
 form.filtros{
   display: flex;
   position: relative;
-  width: 600px;
-  height: 60px;
+  max-width: 600px;
+  width: 90%;
+  height: auto;
+  min-height: 3rem;
   margin: auto;
   margin-bottom: 60px;
 }
@@ -120,7 +124,8 @@ form.filtros button:hover{
   text-align: start;
   color: white;
   margin-right: 10px;
-  padding: 10px 15px;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
 }
 
 .item.completo{
@@ -144,6 +149,10 @@ form.filtros button:hover{
 button{
   border: transparent;
   background-color: transparent;
+}
+
+form button:focus {
+  outline: 2px solid #7d83b9;
 }
 
 .estrela{
@@ -236,45 +245,12 @@ input{
 }
 
 @media screen and (max-width: 900px){
-  form.addItem{
-    width: 100%;
-  }
-
-  form.filtros{
-    width: 100%;
-  }
-
-  .listaTarefas{
-    width: 100%;
-  }
-}
-
-@media screen and (max-width: 900px){
-  form.addItem{
-    width: 100%;
-  }
-
-  form.filtros{
-    width: 100%;
-  }
-
-  .listaTarefas{
+  form.addItem, form.filtros, .listaTarefas {
     width: 100%;
   }
 }
 
 @media screen and (max-width: 500px){
-  form.addItem{
-    max-width: 100%;
-  }
-
-  form.filtros{
-    max-width: 100%;
-  }
-
-  .listaTarefas{
-    max-width: 100%;
-  }
 
   input::placeholder{
     font-size: 14px;
@@ -282,11 +258,31 @@ input{
 
   .listaTarefas .item span {
     font-size: 14px;
-    flex-wrap: nowrap;
   }
 
   .listaTarefas .item button {
     font-size: 14px;
   }
+}
 
+@media screen and (max-width: 420px){
+
+  .item{
+    max-width: 100%;
+    word-wrap: break-word;
+  }
+  .item button{
+    padding: 1;
+  }
+
+  .item span{
+    display: block; 
+    word-break: break-word;
+    white-space: normal; 
+    width: 100%;
+  }
+
+  .estrela{
+    width: 15px;
+  }
 }
