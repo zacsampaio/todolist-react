@@ -1,21 +1,29 @@
 import React, { useState, useEffect } from "react";
+import ExportImport from "./ExportImport";
+
 import "./TodoList.css";
+
+// Importação de imagens
 import Icone from "./assets/icon.png";
 import IconeFiltro from "./assets/filtro.png";
 import IconeBusca from "./assets/busca.png";
 import EstrelaMarcada from "./assets/estrela.png";
 import EstrelaNaoMarcada from "./assets/estrelaNaoMarcada.png";
+import IconeMenu from "./assets/menu.png";
 
 function TodoList() {
   const [lista, setLista] = useState([]);
   const [listaVisivel, setListaVisivel] = useState([]);
   const [novoItem, setNovoItem] = useState("");
   const [busca, setBusca] = useState("");
-  const [visivel, setVisivel] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [buscaVisivel, setBuscaVisivel] = useState(false);
+  const [menuFiltroAberto, setMenuFiltroAberto] = useState(false);
   const [filtroSelecionado, setFiltroSelecionado] = useState("Nome");
   const [erroPrioridade, setErroPrioridade] = useState("");
- 
+  const [opcoesAberto, setOpcoesAberto] = useState(false);
+  const [editandoID, setEditandoID] = useState(null);
+  const [textoEditado, setTextoEditado] = useState("");
+
   useEffect(() => {
     try {
       const listaStorage = localStorage.getItem("Lista");
@@ -32,21 +40,23 @@ function TodoList() {
       switch (filtroSelecionado) {
         case "Nome":
           return item.text.toLowerCase().includes(busca.toLowerCase());
-  
+
         case "Prioridade":
           if (busca && (isNaN(busca) || busca < 1 || busca > 3)) {
-            setErroPrioridade("Informe apenas os números 1, 2 ou 3, para buscar as respectivas prioridades!");
+            setErroPrioridade(
+              "Informe apenas os números 1, 2 ou 3, para buscar as respectivas prioridades!"
+            );
             return false;
           }
           setErroPrioridade("");
           return item.isPrioridade.toString().includes(busca);
-  
+
         case "Concluidas":
           return item.isCompleted === true;
-  
+
         case "Não Concluidas":
           return item.isCompleted === false;
-  
+
         default:
           return true;
       }
@@ -72,12 +82,14 @@ function TodoList() {
       localStorage.setItem("Lista", JSON.stringify(novaLista));
       return novaLista;
     });
-    setVisivel(false)
+    if (filtroSelecionado === "Nome") {
+      setBuscaVisivel(false);
+    }
     setNovoItem("");
     document.getElementById("input-entrada").focus();
   }
 
-  function definePrioridade(id, valor){
+  function definePrioridade(id, valor) {
     setLista((prevLista) => {
       const novaLista = prevLista.map((item) => {
         if (item.id === id) {
@@ -87,19 +99,40 @@ function TodoList() {
       });
       localStorage.setItem("Lista", JSON.stringify(novaLista));
       return novaLista;
-    })
+    });
   }
 
-  function clicou(id) {
-    const novaLista = lista.map((item) => {
-      if (item.id === id) {
-        item.isCompleted = !item.isCompleted;
-      }
-      return item;
+  function completar(id) {
+    setLista((prevLista) => {
+      const novaLista = prevLista.map((item) =>
+        item.id === id ? { ...item, isCompleted: !item.isCompleted } : item
+      );
+      localStorage.setItem("Lista", JSON.stringify(novaLista));
+      return novaLista;
     });
-    localStorage.setItem("Lista", JSON.stringify(novaLista));
+  }
 
-    setLista(novaLista);
+  function editar(id) {
+    const idParaEditar = lista.find((item) => item.id === id);
+    if (idParaEditar) {
+      setEditandoID(id);
+      setTextoEditado(idParaEditar.text);
+    }
+  }
+
+  function salvarEdicao(id) {
+    setLista((prevLista) => {
+      const novaLista = prevLista.map((item) => {
+        if (item.id === id) {
+          item.text = textoEditado;
+        }
+        return item;
+      });
+      localStorage.setItem("Lista", JSON.stringify(novaLista));
+      return novaLista;
+    });
+    setEditandoID(null);
+    setTextoEditado("");
   }
 
   function deleta(id) {
@@ -121,31 +154,45 @@ function TodoList() {
   }
 
   function buscarItens() {
-    setVisivel(!visivel);
-    if (!visivel) {
+    setBuscaVisivel(!buscaVisivel);
+    if (!buscaVisivel) {
       setListaVisivel(lista);
       setBusca("");
       setErroPrioridade("");
     }
   }
 
-  function listaSuspensa(){
-    setMenuOpen((prev) => (!prev));
+  function listaSuspensa() {
+    setMenuFiltroAberto((prev) => !prev);
     setBusca("");
     setErroPrioridade("");
   }
 
-  function handleClick(filtro){
+  function menuOpcoesAberto() {
+    setOpcoesAberto((prev) => !prev);
+  }
+
+  function handleClick(filtro) {
     setFiltroSelecionado(filtro);
-    setMenuOpen(false);
+    setMenuFiltroAberto(false);
     setBusca("");
     setErroPrioridade("");
   }
 
   return (
     <div>
-      <h1>Lista de Tarefas</h1>
+      <div className="menuTop" onClick={menuOpcoesAberto}>
+        {opcoesAberto && (
+          <>
+            <ExportImport lista={lista} setLista={setLista} />
+          </>
+        )}
+        <button>
+          <img className="iconFiltro" src={IconeMenu} />
+        </button>
+      </div>
 
+      <h1>Lista de Tarefas</h1>
       <form onSubmit={adicionaItem} className="addItem">
         <button type="button" onClick={buscarItens} className="filter">
           <img className="iconFiltro" src={IconeBusca} />
@@ -159,20 +206,29 @@ function TodoList() {
           }}
           placeholder="Adicione uma tarefa"
         />
-        <button className="add" type="submit" style={{fontWeight: '700', fontSize: '25px'}}>
+        <button
+          className="add"
+          type="submit"
+          style={{ fontWeight: "700", fontSize: "25px" }}
+        >
           +
         </button>
       </form>
 
-      {visivel && (
-        <form className="filtros" style={{ marginBottom: menuOpen ? "110px" : "20px" }}>
-          {menuOpen && (
+      {buscaVisivel && (
+        <form
+          className="filtros"
+          style={{ marginBottom: menuFiltroAberto ? "110px" : "20px" }}
+        >
+          {menuFiltroAberto && (
             <div>
-              <ul className="listaAberta">
+              <ul className="filtroAberto">
                 <li onClick={() => handleClick("Nome")}>➥ Nome</li>
                 <li onClick={() => handleClick("Prioridade")}>➥ Prioridade</li>
                 <li onClick={() => handleClick("Concluidas")}>➥ Concluídas</li>
-                <li onClick={() => handleClick("Não Concluidas")}>➥ Não Concluídas</li>
+                <li onClick={() => handleClick("Não Concluidas")}>
+                  ➥ Não Concluídas
+                </li>
               </ul>
             </div>
           )}
@@ -184,7 +240,7 @@ function TodoList() {
             value={busca}
             onChange={filtrarTarefas}
             placeholder={
-              filtroSelecionado === 'Nome'
+              filtroSelecionado === "Nome"
                 ? "Nome: Busque suas tarefas!"
                 : filtroSelecionado === "Concluidas"
                 ? "Concluídas: Busque tarefas concluídas!"
@@ -193,10 +249,9 @@ function TodoList() {
                 : "Prioridade: Busque suas tarefas (Ex: 1, 2 ou 3)"
             }
           />
-          {erroPrioridade && 
-            <div className="erroMensagem">
-              {erroPrioridade}
-            </div>}
+          {erroPrioridade && (
+            <div className="erroMensagem">{erroPrioridade}</div>
+          )}
         </form>
       )}
 
@@ -210,33 +265,76 @@ function TodoList() {
                 key={item.id}
                 className={item.isCompleted ? "item completo" : "item"}
               >
-                <button 
-                  onClick={() => definePrioridade(item.id, 1)}
-                  className={item.isPrioridade >= 1? 'botao-selecionado' : ""}
-                ><img className="estrela" src={item.isPrioridade >= 1? EstrelaMarcada : EstrelaNaoMarcada}/></button>
-                <button 
-                  onClick={() => definePrioridade(item.id, 2)}
-                  className={item.isPrioridade >= 2 ? 'botao-selecionado' : ""}
-                ><img className="estrela" src={item.isPrioridade >= 2 ? EstrelaMarcada : EstrelaNaoMarcada}/></button>
-                <button 
-                  onClick={() => definePrioridade(item.id, 3)}
-                  className={item.isPrioridade >= 3 ? 'botao-selecionado' : ""}
-                ><img className="estrela" src={item.isPrioridade >= 3 ? EstrelaMarcada : EstrelaNaoMarcada}/></button>
-                <span
-                  onClick={() => {
-                    clicou(item.id);
-                  }}
-                >
-                  {item.text}
-                </span>
-                <button
-                  onClick={() => {
-                    deleta(item.id);
-                  }}
-                  className="del"
-                >
-                  Deletar
-                </button>
+                {editandoID === item.id ? (
+                  <div>
+                    <input
+                      type="text"
+                      value={textoEditado}
+                      onChange={(e) => setTextoEditado(e.target.value)}
+                    />
+                    <button onClick={() => salvarEdicao(item.id)}>
+                      Salvar
+                    </button>
+                    <button onClick={() => setEditandoID(null)}>
+                      Cancelar
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => definePrioridade(item.id, 1)}
+                      className={
+                        item.isPrioridade >= 1 ? "botao-selecionado" : ""
+                      }
+                    >
+                      <img
+                        className="estrela"
+                        src={
+                          item.isPrioridade >= 1
+                            ? EstrelaMarcada
+                            : EstrelaNaoMarcada
+                        }
+                      />
+                    </button>
+                    <button
+                      onClick={() => definePrioridade(item.id, 2)}
+                      className={
+                        item.isPrioridade >= 2 ? "botao-selecionado" : ""
+                      }
+                    >
+                      <img
+                        className="estrela"
+                        src={
+                          item.isPrioridade >= 2
+                            ? EstrelaMarcada
+                            : EstrelaNaoMarcada
+                        }
+                      />
+                    </button>
+                    <button
+                      onClick={() => definePrioridade(item.id, 3)}
+                      className={
+                        item.isPrioridade >= 3 ? "botao-selecionado" : ""
+                      }
+                    >
+                      <img
+                        className="estrela"
+                        src={
+                          item.isPrioridade >= 3
+                            ? EstrelaMarcada
+                            : EstrelaNaoMarcada
+                        }
+                      />
+                    </button>
+                    <span onClick={() => completar(item.id)}>{item.text}</span>
+                    <button onClick={() => editar(item.id)} className="edit">
+                      Editar
+                    </button>
+                    <button onClick={() => deleta(item.id)} className="del">
+                      Deletar
+                    </button>
+                  </>
+                )}
               </div>
             ))
           )}

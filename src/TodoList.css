@@ -10,6 +10,76 @@ body{
   outline: none;
 }
 
+input[type="file"] {
+  opacity: 1;
+  position: relative;
+  inset: 0;
+}
+
+.menuTop {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  height: 40px;
+}
+
+.menuTop button {
+  display: flex;
+  background: transparent;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-right: 20px;
+  font-size: 16px;
+  color: #333;
+  transition: all 0.3s ease;
+  border-radius: 5px;
+  margin: 0;
+}
+
+.menuTop button:hover {
+  transform: scale(1.1);
+}
+
+.menuTop img {
+  width: 30px;
+  transition: transform 0.3s ease;
+}
+
+.menuTop img:hover {
+  transform: scale(1.3);
+}
+
+.menuOpcoesAberto{
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.opcoesAberto {
+  background-color: #363b65;
+  position: relative;
+  top: 50px;
+  right: 29px;
+  padding: 3px;
+  border-radius: 10px;
+  z-index: 100;
+}
+
+.opcoesAberto button, .opcoesAberto input{
+  cursor: pointer;
+  margin-top: 10px;
+  color: white;
+}
+
+.opcoesAberto button, .menuOpcoesAberto input:hover {
+  transform: scale(1.2);
+  color: #7d83b9;
+}
+
+
 h1{
   font-weight: 900;
   color: #7d83b9;
@@ -101,7 +171,8 @@ form.filtros button:hover{
   display: flex;
   justify-content: center;
   flex-flow: column wrap;
-  width: 600px;
+  width: 100%;
+  max-width: 600px;
   margin: auto;
 }
 
@@ -120,7 +191,8 @@ form.filtros button:hover{
 
 .item span{
   flex-grow: 1;
-  width: 100%;
+  width: 300px;
+  word-wrap: break-word;
   text-align: start;
   color: white;
   margin-right: 10px;
@@ -139,14 +211,15 @@ form.filtros button:hover{
 }
 
 .item.completo span{
-  width: 100%;
   color: #4d506e;
   margin-right: 10px;
   padding: 10px 15px;
   text-decoration: line-through;
+  width: 300px;
+  word-wrap: break-word;
 }
 
-button{
+.item button{
   border: transparent;
   background-color: transparent;
 }
@@ -165,13 +238,13 @@ form button:focus {
   transform: scale(1.3);
 }
 
-.listaAberta{
+.filtroAberto{
   position: absolute;
   margin-top: 60px;
   padding: 3px;
 }
 
-.listaAberta li{
+.filtroAberto li{
   cursor: pointer;
   margin-top: 5px;
   margin-left: 70px;
@@ -180,7 +253,7 @@ form button:focus {
   transition: transform 0.5s ease;
 }
 
-.listaAberta li:hover{
+.filtroAberto li:hover{
   transform: scale(1.3) translateX(20px);
   color: #41477e;
 }
@@ -196,7 +269,7 @@ form button:focus {
 button.del{
   background: none;
   border: none;
-  padding: 15px;
+  padding: 10px;
   cursor: pointer;
 }
 
@@ -204,7 +277,22 @@ button.del:hover{
   background: #ff004c;
   border: none;
   color: white;
-  padding: 15px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+button.edit{
+  background: none;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+button.edit:hover{
+  background: #ff004c;
+  border: none;
+  color: white;
+  padding: 10px;
   cursor: pointer;
 }
 
@@ -224,7 +312,7 @@ button.deleteAll:hover{
   color: white;
 }
 
-input{
+#input-entrada{
   display: flex;
   width: 100%;
   height: 60px;
