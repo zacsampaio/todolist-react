@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from "react";
 import ExportImport from "./ExportImport";
+import { AiFillEdit } from "react-icons/ai";
+import { AiFillDelete } from "react-icons/ai";
+import { VscSaveAs } from "react-icons/vsc";
+import { TbPencilCancel } from "react-icons/tb";
+import { MdAssignmentAdd } from "react-icons/md";
+import { MdOutlineContentPasteSearch } from "react-icons/md";
+
 
 import "./TodoList.css";
 
 // Importação de imagens
 import Icone from "./assets/icon.png";
 import IconeFiltro from "./assets/filtro.png";
-import IconeBusca from "./assets/busca.png";
 import EstrelaMarcada from "./assets/estrela.png";
 import EstrelaNaoMarcada from "./assets/estrelaNaoMarcada.png";
-import IconeMenu from "./assets/menu.png";
 
 function TodoList() {
   const [lista, setLista] = useState([]);
@@ -20,7 +25,6 @@ function TodoList() {
   const [menuFiltroAberto, setMenuFiltroAberto] = useState(false);
   const [filtroSelecionado, setFiltroSelecionado] = useState("Nome");
   const [erroPrioridade, setErroPrioridade] = useState("");
-  const [opcoesAberto, setOpcoesAberto] = useState(false);
   const [editandoID, setEditandoID] = useState(null);
   const [textoEditado, setTextoEditado] = useState("");
 
@@ -168,10 +172,6 @@ function TodoList() {
     setErroPrioridade("");
   }
 
-  function menuOpcoesAberto() {
-    setOpcoesAberto((prev) => !prev);
-  }
-
   function handleClick(filtro) {
     setFiltroSelecionado(filtro);
     setMenuFiltroAberto(false);
@@ -181,21 +181,16 @@ function TodoList() {
 
   return (
     <div>
-      <div className="menuTop" onClick={menuOpcoesAberto}>
-        {opcoesAberto && (
+      <div className="menuTop">
           <>
             <ExportImport lista={lista} setLista={setLista} />
           </>
-        )}
-        <button>
-          <img className="iconFiltro" src={IconeMenu} />
-        </button>
       </div>
 
       <h1>Lista de Tarefas</h1>
       <form onSubmit={adicionaItem} className="addItem">
         <button type="button" onClick={buscarItens} className="filter">
-          <img className="iconFiltro" src={IconeBusca} />
+          <MdOutlineContentPasteSearch style={{color: 'white', fontSize: "20px"}} />
         </button>
         <input
           id="input-entrada"
@@ -209,9 +204,8 @@ function TodoList() {
         <button
           className="add"
           type="submit"
-          style={{ fontWeight: "700", fontSize: "25px" }}
         >
-          +
+          <MdAssignmentAdd style={{color: 'white', fontSize: "20px"}} />
         </button>
       </form>
 
@@ -266,17 +260,17 @@ function TodoList() {
                 className={item.isCompleted ? "item completo" : "item"}
               >
                 {editandoID === item.id ? (
-                  <div>
+                  <div className="inputEdit">
                     <input
                       type="text"
                       value={textoEditado}
                       onChange={(e) => setTextoEditado(e.target.value)}
                     />
-                    <button onClick={() => salvarEdicao(item.id)}>
-                      Salvar
+                    <button className="editSave" onClick={() => salvarEdicao(item.id)}>
+                      <VscSaveAs style={{color: 'white', fontSize: "20px"}} />
                     </button>
-                    <button onClick={() => setEditandoID(null)}>
-                      Cancelar
+                    <button className="editCancel" onClick={() => setEditandoID(null)}>
+                      <TbPencilCancel style={{color: 'white', fontSize: "20px"}} />
                     </button>
                   </div>
                 ) : (
@@ -328,10 +322,10 @@ function TodoList() {
                     </button>
                     <span onClick={() => completar(item.id)}>{item.text}</span>
                     <button onClick={() => editar(item.id)} className="edit">
-                      Editar
+                      <AiFillEdit style={{color: 'white', fontSize: "20px"}} />
                     </button>
                     <button onClick={() => deleta(item.id)} className="del">
-                      Deletar
+                      <AiFillDelete style={{color: 'white', fontSize: "20px"}} />
                     </button>
                   </>
                 )}

@@ -10,75 +10,79 @@ body{
   outline: none;
 }
 
-input[type="file"] {
-  opacity: 1;
-  position: relative;
-  inset: 0;
-}
-
-.menuTop {
+.menuOpcoesAberto {
   display: flex;
+  flex-direction: row;
   justify-content: flex-end;
-  width: 100%;
-  height: 40px;
+  align-items: center;
+  gap: 20px; 
 }
 
-.menuTop button {
-  display: flex;
+.menuOpcoesAberto button,
+.menuOpcoesAberto .inputFileImport {
   background: transparent;
   border: none;
-  padding: 10px;
   cursor: pointer;
-  margin-top: 10px;
-  margin-right: 20px;
-  font-size: 16px;
-  color: #333;
-  transition: all 0.3s ease;
-  border-radius: 5px;
-  margin: 0;
+  font-size: 1rem;
+  background-color: #7d83b9;
+  color: white;
+  border-radius: 50px;
+  padding: 10px;
+}
+
+.menuOpcoesAberto button:hover,
+.menuOpcoesAberto .inputFileImport:hover {
+  transform: scale(1.1);
+  color: white;
+  background-color: #41477e;
+}
+
+.menuTop{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.menuTop button{
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  background-color: #7d83b9;
+  color: white;
+  border-radius: 50px;
+  padding: 10px;
 }
 
 .menuTop button:hover {
   transform: scale(1.1);
-}
-
-.menuTop img {
-  width: 30px;
-  transition: transform 0.3s ease;
-}
-
-.menuTop img:hover {
-  transform: scale(1.3);
-}
-
-.menuOpcoesAberto{
-  display: flex;
-  flex-direction: column;
-  background-color: white;
-  border-radius: 10px;
-}
-
-.opcoesAberto {
-  background-color: #363b65;
-  position: relative;
-  top: 50px;
-  right: 29px;
-  padding: 3px;
-  border-radius: 10px;
-  z-index: 100;
-}
-
-.opcoesAberto button, .opcoesAberto input{
-  cursor: pointer;
-  margin-top: 10px;
   color: white;
+  background-color: #41477e;
 }
 
-.opcoesAberto button, .menuOpcoesAberto input:hover {
-  transform: scale(1.2);
-  color: #7d83b9;
+.inputFileImport{
+  position: relative;
+  background-color: #7d83b9;
+  color: white;
+  font-size: 1rem;
+  display: flex;
+  align-items: center; 
+  justify-content: center; 
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 50px;
 }
 
+.inputFileImport input {
+  cursor: pointer; 
+}
+
+.inputFileImport:hover {
+  transform: scale(1.1);
+  color: white;
+  background-color: #41477e;
+  cursor: pointer;
+}
 
 h1{
   font-weight: 900;
@@ -144,15 +148,25 @@ form.filtros{
   display: flex;
   position: relative;
   max-width: 600px;
-  width: 90%;
+  width: 600px;
   height: auto;
   min-height: 3rem;
   margin: auto;
   margin-bottom: 60px;
 }
 
+form.filtros input {
+  flex-grow: 1;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #3a3f57;
+  border: none;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
 form.filtros button{
-  position: absolute;
+  position: relative;
   border: none;
   background: #363b65;
   cursor: pointer;
@@ -164,6 +178,10 @@ form.filtros button{
 
 form.filtros button:hover{
   background: #363f88;
+}
+
+input::placeholder {
+  text-align: center;
 }
 
 
@@ -265,6 +283,43 @@ form button:focus {
   color: #ff0000;
 }
 
+.inputEdit{
+  flex-grow: 1;
+  width: 300px;
+  display: flex;
+  position: relative;
+}
+
+.inputEdit input{
+  flex-grow: 1;
+  display: flex;
+  width: 200px;
+  margin: 5px;
+  color: #363f88;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.3rem;
+  border-radius: 2px;
+}
+
+.editCancel:hover{
+  border: none;
+  color: white;
+  background-color: #ff004c;
+  cursor: pointer;
+  transform: scale(1.05);
+  border-radius: 2px;
+}
+
+.editSave:hover{
+  border: none;
+  color: white;
+  background-color: #7d83b9;
+  cursor: pointer;
+  transform: scale(1.05);
+  border-radius: 2px;
+}
+
 
 button.del{
   background: none;
@@ -277,8 +332,9 @@ button.del:hover{
   background: #ff004c;
   border: none;
   color: white;
-  padding: 10px;
+  transform: scale(1.05);
   cursor: pointer;
+  border-radius: 2px;
 }
 
 button.edit{
@@ -289,11 +345,12 @@ button.edit{
 }
 
 button.edit:hover{
-  background: #ff004c;
+  background: #7d83b9;
   border: none;
   color: white;
-  padding: 10px;
+  transform: scale(1.05);
   cursor: pointer;
+  border-radius: 2px;
 }
 
 button.deleteAll{
