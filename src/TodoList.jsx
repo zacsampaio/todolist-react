@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import ExportImport from "./ExportImport";
+
 import { AiFillEdit } from "react-icons/ai";
 import { AiFillDelete } from "react-icons/ai";
 import { VscSaveAs } from "react-icons/vsc";
@@ -7,220 +8,134 @@ import { TbPencilCancel } from "react-icons/tb";
 import { MdAssignmentAdd } from "react-icons/md";
 import { MdOutlineContentPasteSearch } from "react-icons/md";
 
-
 import "./TodoList.css";
 
 // Importação de imagens
 import Icone from "./assets/icon.png";
-import IconeFiltro from "./assets/filtro.png";
+import IconeFiltro from "./assets/filter.png";
 import EstrelaMarcada from "./assets/estrela.png";
 import EstrelaNaoMarcada from "./assets/estrelaNaoMarcada.png";
+import useList from "./store/useList";
 
 function TodoList() {
-  const [lista, setLista] = useState([]);
-  const [listaVisivel, setListaVisivel] = useState([]);
-  const [novoItem, setNovoItem] = useState("");
-  const [busca, setBusca] = useState("");
-  const [buscaVisivel, setBuscaVisivel] = useState(false);
-  const [menuFiltroAberto, setMenuFiltroAberto] = useState(false);
-  const [filtroSelecionado, setFiltroSelecionado] = useState("Nome");
-  const [erroPrioridade, setErroPrioridade] = useState("");
-  const [editandoID, setEditandoID] = useState(null);
-  const [textoEditado, setTextoEditado] = useState("");
+  const {
+    addItem,
+    removeItem,
+    removeAll,
+    editItem,
+    listCopy,
+    setFilter,
+    filter,
+    valueFilter,
+    isSearchVisible,
+    setIsSearchVisible,
+    isFilterMenuOpen,
+    setIsFilterMenuOpen,
+      } = useList();
+  const [newItem, setNewItem] = useState("");
+  const [errorPriority, setErrorPriority] = useState("");
 
-  useEffect(() => {
-    try {
-      const listaStorage = localStorage.getItem("Lista");
-      if (listaStorage) {
-        setLista(JSON.parse(listaStorage));
-      }
-    } catch (error) {
-      console.error("Erro ao carregar a lista do localstorage: ", error);
-    }
-  }, []);
-
-  useEffect(() => {
-    const listaFiltrada = lista.filter((item) => {
-      switch (filtroSelecionado) {
-        case "Nome":
-          return item.text.toLowerCase().includes(busca.toLowerCase());
-
-        case "Prioridade":
-          if (busca && (isNaN(busca) || busca < 1 || busca > 3)) {
-            setErroPrioridade(
-              "Informe apenas os números 1, 2 ou 3, para buscar as respectivas prioridades!"
-            );
-            return false;
-          }
-          setErroPrioridade("");
-          return item.isPrioridade.toString().includes(busca);
-
-        case "Concluidas":
-          return item.isCompleted === true;
-
-        case "Não Concluidas":
-          return item.isCompleted === false;
-
-        default:
-          return true;
-      }
-    });
-    setListaVisivel(listaFiltrada);
-  }, [lista, busca, filtroSelecionado]);
+  // Adicionar item a lista
 
   function adicionaItem(form) {
     form.preventDefault();
-    if (!novoItem || novoItem.length === 0) {
+    if (!newItem || newItem.length === 0) {
       return;
     }
-    setLista((state) => {
-      const novaLista = [
-        ...state,
-        {
-          text: novoItem,
-          id: state.length > 0 ? state[state.length - 1].id + 1 : 1,
-          isCompleted: false,
-          isPrioridade: 0,
-        },
-      ];
-      localStorage.setItem("Lista", JSON.stringify(novaLista));
-      return novaLista;
-    });
-    if (filtroSelecionado === "Nome") {
-      setBuscaVisivel(false);
-    }
-    setNovoItem("");
-    document.getElementById("input-entrada").focus();
-  }
-
-  function definePrioridade(id, valor) {
-    setLista((prevLista) => {
-      const novaLista = prevLista.map((item) => {
-        if (item.id === id) {
-          item.isPrioridade = valor;
-        }
-        return item;
-      });
-      localStorage.setItem("Lista", JSON.stringify(novaLista));
-      return novaLista;
-    });
-  }
-
-  function completar(id) {
-    setLista((prevLista) => {
-      const novaLista = prevLista.map((item) =>
-        item.id === id ? { ...item, isCompleted: !item.isCompleted } : item
-      );
-      localStorage.setItem("Lista", JSON.stringify(novaLista));
-      return novaLista;
-    });
-  }
-
-  function editar(id) {
-    const idParaEditar = lista.find((item) => item.id === id);
-    if (idParaEditar) {
-      setEditandoID(id);
-      setTextoEditado(idParaEditar.text);
-    }
-  }
-
-  function salvarEdicao(id) {
-    setLista((prevLista) => {
-      const novaLista = prevLista.map((item) => {
-        if (item.id === id) {
-          item.text = textoEditado;
-        }
-        return item;
-      });
-      localStorage.setItem("Lista", JSON.stringify(novaLista));
-      return novaLista;
-    });
-    setEditandoID(null);
-    setTextoEditado("");
-  }
-
-  function deleta(id) {
-    setLista((state) => {
-      const novaLista = state.filter((item) => item.id !== id);
-      localStorage.setItem("Lista", JSON.stringify(novaLista));
-      return novaLista;
-    });
-  }
-
-  function deletaTudo() {
-    localStorage.setItem("Lista", JSON.stringify([]));
-    setLista([]);
+    addItem(newItem);
+    setNewItem("");
+    document.getElementById("input-addItem").focus();
   }
 
   function filtrarTarefas(e) {
-    const textoBusca = e.target.value.toLowerCase();
-    setBusca(textoBusca);
+    const textSearch = e.target.value;
+    setFilter(
+      filter,
+      filter === "Priority" ? Number(textSearch) : textSearch,
+    );
   }
 
-  function buscarItens() {
-    setBuscaVisivel(!buscaVisivel);
-    if (!buscaVisivel) {
-      setListaVisivel(lista);
-      setBusca("");
-      setErroPrioridade("");
+  function searchItems() {
+    setIsSearchVisible(!isSearchVisible);
+    if (isSearchVisible) {
+      setFilter("Nome", undefined);
+      setErrorPriority("");
     }
   }
 
   function listaSuspensa() {
-    setMenuFiltroAberto((prev) => !prev);
-    setBusca("");
-    setErroPrioridade("");
-  }
-
-  function handleClick(filtro) {
-    setFiltroSelecionado(filtro);
-    setMenuFiltroAberto(false);
-    setBusca("");
-    setErroPrioridade("");
+    setIsFilterMenuOpen(!isFilterMenuOpen);
+    setFilter("Nome", undefined);
+    setErrorPriority("");
   }
 
   return (
     <div>
       <div className="menuTop">
-          <>
-            <ExportImport lista={lista} setLista={setLista} />
-          </>
+        <>
+          <ExportImport />
+        </>
       </div>
 
       <h1>Lista de Tarefas</h1>
       <form onSubmit={adicionaItem} className="addItem">
-        <button type="button" onClick={buscarItens} className="filter">
-          <MdOutlineContentPasteSearch style={{color: 'white', fontSize: "20px"}} />
+        <button type="button" onClick={searchItems} className="filter">
+          <MdOutlineContentPasteSearch
+            style={{ color: "white", fontSize: "20px" }}
+          />
         </button>
         <input
-          id="input-entrada"
+          id="input-addItem"
           type="text"
-          value={novoItem}
+          value={newItem}
           onChange={(e) => {
-            setNovoItem(e.target.value);
+            setNewItem(e.target.value);
           }}
           placeholder="Adicione uma tarefa"
         />
-        <button
-          className="add"
-          type="submit"
-        >
-          <MdAssignmentAdd style={{color: 'white', fontSize: "20px"}} />
+        <button className="add" type="submit">
+          <MdAssignmentAdd style={{ color: "white", fontSize: "20px" }} />
         </button>
       </form>
 
-      {buscaVisivel && (
+      {isSearchVisible && (
         <form
-          className="filtros"
-          style={{ marginBottom: menuFiltroAberto ? "110px" : "20px" }}
+          className="filters"
+          style={{ marginBottom: isFilterMenuOpen ? "110px" : "20px" }}
         >
-          {menuFiltroAberto && (
+          {isFilterMenuOpen && (
             <div>
-              <ul className="filtroAberto">
-                <li onClick={() => handleClick("Nome")}>➥ Nome</li>
-                <li onClick={() => handleClick("Prioridade")}>➥ Prioridade</li>
-                <li onClick={() => handleClick("Concluidas")}>➥ Concluídas</li>
-                <li onClick={() => handleClick("Não Concluidas")}>
+              <ul className="filterAberto">
+                <li
+                  onClick={() => {
+                    setIsFilterMenuOpen(false);
+                    setFilter("Nome", "");
+                  }}
+                >
+                  ➥ Nome
+                </li>
+                <li
+                  onClick={() => {
+                    setIsFilterMenuOpen(false);
+                    setFilter("Priority", 0);
+                  }}
+                >
+                  ➥ Prioridade
+                </li>
+                <li
+                  onClick={() => {
+                    setIsFilterMenuOpen(false);
+                    setFilter("Concluidas", true);
+                  }}
+                >
+                  ➥ Concluídas
+                </li>
+                <li
+                  onClick={() => {
+                    setIsFilterMenuOpen(false);
+                    setFilter("Não Concluidas", false);
+                  }}
+                >
                   ➥ Não Concluídas
                 </li>
               </ul>
@@ -230,102 +145,132 @@ function TodoList() {
             <img className="iconFiltro" src={IconeFiltro} />
           </button>
           <input
-            type="text"
-            value={busca}
+            type={filter === "Priority" ? "number" : "text"}
+            value={valueFilter ?? ""}
             onChange={filtrarTarefas}
             placeholder={
-              filtroSelecionado === "Nome"
+              filter === "Nome"
                 ? "Nome: Busque suas tarefas!"
-                : filtroSelecionado === "Concluidas"
-                ? "Concluídas: Busque tarefas concluídas!"
-                : filtroSelecionado === "Não Concluidas"
-                ? "Não Concluídas: Busque tarefas não concluídas!"
-                : "Prioridade: Busque suas tarefas (Ex: 1, 2 ou 3)"
+                : "Priority: Busque suas tarefas (Ex: 1, 2 ou 3)"
             }
           />
-          {erroPrioridade && (
-            <div className="erroMensagem">{erroPrioridade}</div>
+          {errorPriority && (
+            <div className="erroMensagem">{errorPriority}</div>
           )}
         </form>
       )}
 
       <div className="listaTarefas">
         <div style={{ textAlign: "center" }}>
-          {listaVisivel.length < 1 ? (
+          {listCopy.length < 1 ? (
             <img className="icon" src={Icone} />
           ) : (
-            listaVisivel.map((item) => (
+            listCopy.map((item) => (
               <div
                 key={item.id}
                 className={item.isCompleted ? "item completo" : "item"}
               >
-                {editandoID === item.id ? (
+                {item.isEdit ? (
                   <div className="inputEdit">
                     <input
+                      id="input-edit"
                       type="text"
-                      value={textoEditado}
-                      onChange={(e) => setTextoEditado(e.target.value)}
+                      value={item.textEdit}
+                      onChange={(e) =>
+                        editItem(item.id, { textEdit: e.target.value })
+                      }
                     />
-                    <button className="editSave" onClick={() => salvarEdicao(item.id)}>
-                      <VscSaveAs style={{color: 'white', fontSize: "20px"}} />
+                    <button
+                      className="editSave"
+                      onClick={() =>
+                        editItem(item.id, {
+                          text: item.textEdit,
+                          isEdit: false,
+                        })
+                      }
+                    >
+                      <VscSaveAs style={{ color: "white", fontSize: "20px" }} />
                     </button>
-                    <button className="editCancel" onClick={() => setEditandoID(null)}>
-                      <TbPencilCancel style={{color: 'white', fontSize: "20px"}} />
+                    <button
+                      className="editCancel"
+                      onClick={() =>
+                        editItem(item.id, {
+                          isEdit: false,
+                          textEdit: item.text,
+                        })
+                      }
+                    >
+                      <TbPencilCancel
+                        style={{ color: "white", fontSize: "20px" }}
+                      />
                     </button>
                   </div>
                 ) : (
                   <>
                     <button
-                      onClick={() => definePrioridade(item.id, 1)}
+                      onClick={() => editItem(item.id, { isPriority: 1 })}
                       className={
-                        item.isPrioridade >= 1 ? "botao-selecionado" : ""
+                        item.isPriority >= 1 ? "botao-selecionado" : ""
                       }
                     >
                       <img
                         className="estrela"
                         src={
-                          item.isPrioridade >= 1
+                          item.isPriority >= 1
                             ? EstrelaMarcada
                             : EstrelaNaoMarcada
                         }
                       />
                     </button>
                     <button
-                      onClick={() => definePrioridade(item.id, 2)}
+                      onClick={() => editItem(item.id, { isPriority: 2 })}
                       className={
-                        item.isPrioridade >= 2 ? "botao-selecionado" : ""
+                        item.isPriority >= 2 ? "botao-selecionado" : ""
                       }
                     >
                       <img
                         className="estrela"
                         src={
-                          item.isPrioridade >= 2
+                          item.isPriority >= 2
                             ? EstrelaMarcada
                             : EstrelaNaoMarcada
                         }
                       />
                     </button>
                     <button
-                      onClick={() => definePrioridade(item.id, 3)}
+                      onClick={() => editItem(item.id, { isPriority: 3 })}
                       className={
-                        item.isPrioridade >= 3 ? "botao-selecionado" : ""
+                        item.isPriority >= 3 ? "botao-selecionado" : ""
                       }
                     >
                       <img
                         className="estrela"
                         src={
-                          item.isPrioridade >= 3
+                          item.isPriority >= 3
                             ? EstrelaMarcada
                             : EstrelaNaoMarcada
                         }
                       />
                     </button>
-                    <span onClick={() => completar(item.id)}>{item.text}</span>
-                    <button onClick={() => editar(item.id)} className="edit">
-                      <AiFillEdit style={{color: 'white', fontSize: "20px"}} />
+                    <span
+                      onClick={() =>
+                        editItem(item.id, { isCompleted: !item.isCompleted })
+                      }
+                    >
+                      {item.text}
+                    </span>
+                    <button
+                      onClick={() => editItem(item.id, { isEdit: true })}
+                      className="edit"
+                    >
+                      <AiFillEdit
+                        style={{ color: "white", fontSize: "20px" }}
+                      />
                     </button>
-                    <button onClick={() => deleta(item.id)} className="del">
-                      <AiFillDelete style={{color: 'white', fontSize: "20px"}} />
+                    <button onClick={() => removeItem(item.id)} className="del">
+                      <AiFillDelete
+                        style={{ color: "white", fontSize: "20px" }}
+                      />
                     </button>
                   </>
                 )}
@@ -333,8 +278,8 @@ function TodoList() {
             ))
           )}
         </div>
-        {lista.length > 0 && (
-          <button onClick={() => deletaTudo()} className="deleteAll">
+        {listCopy.length > 0 && (
+          <button onClick={() => removeAll()} className="deleteAll">
             Deletar todas
           </button>
         )}
