@@ -40,6 +40,5 @@ A aplicação **ToDo List** permite que o usuário:
    
 3. Inicie o projeto:
    ```bash
-   npm start
-
-Abra o navegador e acesse http://localhost:3000 para visualizar a aplicação.
+   npm run dev
+4. Abra o navegador e acesse http://localhost:3000 para visualizar a aplicação.
