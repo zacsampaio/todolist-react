@@ -409,9 +409,20 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 input[type="number"] {
-  -moz-appearance: textfield;
+  appearance: none; /* Remove o estilo padrão em todos os navegadores */
+  -webkit-appearance: none; /* Chrome, Safari */
+  -moz-appearance: none; /* Firefox, sem a necessidade de definir 'textfield' */
+  border: 1px solid #ccc;
+  padding: 8px;
+  font-size: 16px;
+  background-color: #fff;
 }
 
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 @media screen and (max-width: 900px){
   form.addItem, form.filters, .listaTarefas {
     width: 100%;
