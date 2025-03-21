@@ -171,7 +171,7 @@ function TodoList() {
                 className={item.isCompleted ? "item completo" : "item"}
               >
                 {item.isEdit ? (
-                  <div className="inputEdit">
+                  <form className="inputEdit">
                     <input
                       id="input-edit"
                       type="text"
@@ -182,6 +182,7 @@ function TodoList() {
                     />
                     <button
                       className="editSave"
+                      type="submit"
                       onClick={() =>
                         editItem(item.id, {
                           text: item.textEdit,
@@ -204,7 +205,7 @@ function TodoList() {
                         style={{ color: "white", fontSize: "20px" }}
                       />
                     </button>
-                  </div>
+                  </form>
                 ) : (
                   <>
                     <button

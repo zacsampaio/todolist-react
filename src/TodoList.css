@@ -1,16 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Manrope:wght@200..800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+:root {
+  --purple-100: #7d83b9;
+  --purple-200: #41477e;
+  --purple-300: #363b65;
+  --purple-400: #363f88;
+  --purple-500: #222435;
+  --purple-600: #1e1f2e;
+  --purple-700: #151627;
+  --purple-800: #181a33;
+
+  --blue-200: #1868b3;
+
+  --green-200: #15b28f;
+
+  --red-100: #ff004c;
+  --red-200: #ff0000;
+
+  --white: white;
+}
+
 
 body{
-  background: #222435;
+  background: var(--purple-800);
   font-family: 'Roboto', sans-serif;
-  color: white;
+  color: var(--white);
 }
+
 
 *:focus{
   outline: none;
 }
 
-.menuOpcoesAberto {
+.exportAndImport {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -18,23 +38,20 @@ body{
   gap: 20px; 
 }
 
-.menuOpcoesAberto button,
-.menuOpcoesAberto .inputFileImport {
+.exportAndImport button, .inputFileImport {
   background: transparent;
   border: none;
   cursor: pointer;
   font-size: 1rem;
-  background-color: #7d83b9;
-  color: white;
+  background-color: var(--green-200);
   border-radius: 50px;
   padding: 10px;
 }
 
-.menuOpcoesAberto button:hover,
-.menuOpcoesAberto .inputFileImport:hover {
+.exportAndImport button:hover, .inputFileImport:hover {
   transform: scale(1.1);
-  color: white;
-  background-color: #41477e;
+  color: var(--white);
+  background-color: var(--blue-200);
 }
 
 .menuTop{
@@ -48,22 +65,20 @@ body{
   border: none;
   cursor: pointer;
   font-size: 1rem;
-  background-color: #7d83b9;
-  color: white;
+  background-color:  var(--green-200);
+  color: var(--white);
   border-radius: 50px;
   padding: 10px;
 }
 
 .menuTop button:hover {
   transform: scale(1.1);
-  color: white;
-  background-color: #41477e;
+  background-color: var(--blue-200);
 }
 
 .inputFileImport{
   position: relative;
-  background-color: #7d83b9;
-  color: white;
+  background-color: var(--green-200);
   font-size: 1rem;
   display: flex;
   align-items: center; 
@@ -79,15 +94,15 @@ body{
 
 .inputFileImport:hover {
   transform: scale(1.1);
-  color: white;
-  background-color: #41477e;
+  background: var(--blue-200);
   cursor: pointer;
 }
 
 h1{
-  font-weight: 900;
-  color: #7d83b9;
+  font-weight: 700;
+  color: var(--blue-200);
   text-align: center;
+  letter-spacing: 4px;
 }
 
 ul{
@@ -109,9 +124,8 @@ button.add{
   position: absolute;
   top: 0;
   right: 0;
-  background: #363b65;
+  background: var(--green-200);
   border: none;
-  color: white;
   cursor: pointer;
   padding: 10px 25px;
   height: 62px;
@@ -120,14 +134,13 @@ button.add{
 }
 
 button.add:hover{
-  color: white;
-  background: #363f88;
+  background: var(--blue-200);
 }
 
 button.filter{
   position: absolute;
   border: none;
-  background: #363b65;
+  background: var(--green-200);
   cursor: pointer;
   padding: 10px 25px;
   height: 62px;
@@ -136,8 +149,7 @@ button.filter{
 }
 
 button.filter:hover{
-  color: white;
-  background: #363f88;
+  background: var(--blue-200);
 }
 
 .filter img{
@@ -169,7 +181,7 @@ form.filters input {
 form.filters button{
   position: relative;
   border: none;
-  background: #363b65;
+  background: var(--green-200);
   cursor: pointer;
   padding: 10px 25px;
   height: 62px;
@@ -178,11 +190,14 @@ form.filters button{
 }
 
 form.filters button:hover{
-  background: #363f88;
+  background: var(--blue-200);
 }
 
 input::placeholder {
   text-align: center;
+  color: var(--blue-200);
+  opacity: 0.9;
+  letter-spacing: 1px;
 }
 
 .listaTarefas{
@@ -197,14 +212,14 @@ input::placeholder {
 .item{
   display: flex;
   justify-content: space-between;
-  border: 1px solid #363b65;
+  border: 1px solid var(--purple-300);
   margin-bottom: 10px;
   cursor: pointer;
   position: relative;
 }
 
 .item:hover{
-  background: #151627;
+  background: var(--purple-700);
 }
 
 .item span{
@@ -212,7 +227,7 @@ input::placeholder {
   width: 300px;
   word-wrap: break-word;
   text-align: start;
-  color: white;
+  
   margin-right: 10px;
   font-size: 1rem;
   padding: 0.5rem 1rem;
@@ -222,7 +237,7 @@ input::placeholder {
   display: flex;
   text-align: start;
   justify-content: space-between;
-  background: #1e1f2e;
+  background: var(--purple-600);
   border: none;
   margin-bottom: 10px;
   cursor: pointer;
@@ -243,7 +258,7 @@ input::placeholder {
 }
 
 form button:focus {
-  outline: 2px solid #7d83b9;
+  outline: 2px solid var(--purple-100);
 }
 
 .estrela{
@@ -266,21 +281,21 @@ form button:focus {
   cursor: pointer;
   margin-top: 5px;
   margin-left: 70px;
-  color: #7d83b9;
-  box-shadow: #151627;
+  color: var(--purple-100);
+  box-shadow: var(--purple-700);
   transition: transform 0.5s ease;
 }
 
 .filterAberto li:hover{
   transform: scale(1.3) translateX(20px);
-  color: #41477e;
+  color: var(--purple-200);
 }
 
 .erroMensagem{
   position: absolute;
   margin-top: 75px;
   margin-left: 25px;
-  color: #ff0000;
+  color: var(--red-200);
 }
 
 .inputEdit{
@@ -295,17 +310,17 @@ form button:focus {
   display: flex;
   width: 200px;
   margin: 5px;
-  color: #363f88;
+  color: var(--purple-400);
   font-weight: 600;
   font-size: 1rem;
   padding: 0.3rem;
   border-radius: 2px;
+  border: 0;
 }
 
 .editCancel:hover{
   border: none;
-  color: white;
-  background-color: #ff004c;
+  background-color: var(--red-100);
   cursor: pointer;
   transform: scale(1.05);
   border-radius: 2px;
@@ -313,8 +328,7 @@ form button:focus {
 
 .editSave:hover{
   border: none;
-  color: white;
-  background-color: #7d83b9;
+  background-color: var(--purple-100);
   cursor: pointer;
   transform: scale(1.05);
   border-radius: 2px;
@@ -329,9 +343,8 @@ button.del{
 }
 
 button.del:hover{
-  background: #ff004c;
+  background: var(--red-100);
   border: none;
-  color: white;
   transform: scale(1.05);
   cursor: pointer;
   border-radius: 2px;
@@ -345,19 +358,18 @@ button.edit{
 }
 
 button.edit:hover{
-  background: #7d83b9;
+  background: var(--purple-100);
   border: none;
-  color: white;
   transform: scale(1.05);
   cursor: pointer;
   border-radius: 2px;
 }
 
 button.deleteAll{
-  border: 1px solid #ff004c;
+  border: 1px solid var(--red-100);
   background: none;
   padding: 15px;
-  color: #ff004c;
+  color: var(--red-100);
   font-weight: bold;
   border-radius: 5px;
   margin-top: 30px;
@@ -365,8 +377,9 @@ button.deleteAll{
 
 button.deleteAll:hover{
   cursor: pointer;
-  background: #ff004c;
-  color: white;
+  color: var(--white);
+  background: var(--red-100);
+  
 }
 
 #input-addItem{
@@ -377,7 +390,7 @@ button.deleteAll:hover{
   border: none;
   font-size: 16px;
   border-radius: 12px;
-  color: white;
+  color: var(--white);
   text-align: center;
 }
 

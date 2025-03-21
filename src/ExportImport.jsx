@@ -78,7 +78,7 @@ function ExportImport() {
   };
 
   return (
-    <div className="menuOpcoesAberto">
+    <div className="exportAndImport">
       <button onClick={exportList}><AiOutlineExport /> Exportar</button>
       <div className="inputFileImport">
         <label htmlFor="fileImport" style={{cursor: 'pointer'}}><AiOutlineImport /> Importar</label>
