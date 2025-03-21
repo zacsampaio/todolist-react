@@ -35,11 +35,11 @@ A aplicação **ToDo List** permite que o usuário:
    git clone https://github.com/zacsampaio/todolist-react.git
   
 2. Instale as dependências:
-   ```bas
+   ```bash
    npm install
    
 3. Inicie o projeto:
-   ```bas
+   ```bash
    npm start
 
 Abra o navegador e acesse http://localhost:3000 para visualizar a aplicação.
