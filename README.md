@@ -10,6 +10,7 @@ Este é o meu **primeiro projeto** utilizando **React** e **JavaScript**, desenv
 - **React**: Biblioteca principal para a construção da interface de usuário.
   - **React-dom**: Responsável pela renderização da aplicação no DOM.
   - **React-icons**: Biblioteca para ícones personalizados, facilitando a interface visual.
+- **Vite**: Ferramenta para inicialização e build do projeto, garantindo maior velocidade e eficiência.
 - **Zustand**: Biblioteca para gerenciamento de estado da aplicação e persistência no **localStorage**.
 - **ExcelJS**: Usado para importar e exportar dados em formato **Excel**.
 - **HTML**: Estrutura básica da aplicação.
@@ -21,9 +22,11 @@ A aplicação **ToDo List** permite que o usuário:
 - **Adicionar** novas tarefas.
 - **Listar** todas as tarefas criadas.
 - **Editar** tarefas existentes.
-- **Excluir** tarefas individuais ou **limpar todas as tarefas**.
+- **Excluir** tarefas individuais ou **limpar todas as tarefas** (caso as listas estejam filtradas, apagará apenas as tarefas em tela).
 - **Persistir** as tarefas no **localStorage** para manter os dados mesmo após o fechamento do navegador.
 - **Importar e Exportar** tarefas em formato **Excel**, utilizando o **ExcelJS**.
+- **Concluir** a tarefa.
+- **Prioridade** definir o nível de prioridade.
 
 ## Como Rodar o Projeto
 
@@ -35,7 +38,7 @@ A aplicação **ToDo List** permite que o usuário:
    ```bas
    npm install
    
-4. Inicie o projeto:
+3. Inicie o projeto:
    ```bas
    npm start
 
