@@ -1,0 +1,23 @@
+.exportAndImport {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px; 
+}
+
+.exportAndImport button, .inputFileImport {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  background-color: var(--green-200);
+  border-radius: 50px;
+  padding: 10px;
+}
+
+.exportAndImport button:hover, .inputFileImport:hover {
+  transform: scale(1.1);
+  color: var(--white);
+  background-color: var(--blue-200);
+}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ExportImport from "./ExportImport";
+import { MenuButtons } from "../../components/Menu/Index";
 
 import { AiFillEdit } from "react-icons/ai";
 import { AiFillDelete } from "react-icons/ai";
@@ -8,16 +8,16 @@ import { TbPencilCancel } from "react-icons/tb";
 import { MdAssignmentAdd } from "react-icons/md";
 import { MdOutlineContentPasteSearch } from "react-icons/md";
 
-import "./TodoList.css";
+import "./styles.css";
 
 // Importação de imagens
-import Icone from "./assets/icon.png";
-import IconeFiltro from "./assets/filter.png";
-import EstrelaMarcada from "./assets/estrela.png";
-import EstrelaNaoMarcada from "./assets/estrelaNaoMarcada.png";
-import useList from "./store/useList";
+import Icone from "../../assets/icon.png";
+import IconeFiltro from "../../assets/filter.png";
+import EstrelaMarcada from "../../assets/estrela.png";
+import EstrelaNaoMarcada from "../../assets/estrelaNaoMarcada.png";
+import useList from "../../store/useList";
 
-function TodoList() {
+export function Home() {
   const {
     addItem,
     removeItem,
@@ -31,7 +31,7 @@ function TodoList() {
     setIsSearchVisible,
     isFilterMenuOpen,
     setIsFilterMenuOpen,
-      } = useList();
+  } = useList();
   const [newItem, setNewItem] = useState("");
   const [errorPriority, setErrorPriority] = useState("");
 
@@ -49,10 +49,7 @@ function TodoList() {
 
   function filtrarTarefas(e) {
     const textSearch = e.target.value;
-    setFilter(
-      filter,
-      filter === "Priority" ? Number(textSearch) : textSearch,
-    );
+    setFilter(filter, filter === "Priority" ? Number(textSearch) : textSearch);
   }
 
   function searchItems() {
@@ -73,7 +70,7 @@ function TodoList() {
     <div>
       <div className="menuTop">
         <>
-          <ExportImport />
+          <MenuButtons />
         </>
       </div>
 
@@ -154,9 +151,7 @@ function TodoList() {
                 : "Priority: Busque suas tarefas (Ex: 1, 2 ou 3)"
             }
           />
-          {errorPriority && (
-            <div className="erroMensagem">{errorPriority}</div>
-          )}
+          {errorPriority && <div className="erroMensagem">{errorPriority}</div>}
         </form>
       )}
 
@@ -288,5 +283,3 @@ function TodoList() {
     </div>
   );
 }
-
-export default TodoList;

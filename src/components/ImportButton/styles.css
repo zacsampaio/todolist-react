@@ -1,0 +1,21 @@
+.inputFileImport{
+  position: relative;
+  background-color: var(--green-200);
+  font-size: 1rem;
+  display: flex;
+  align-items: center; 
+  justify-content: center; 
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 50px;
+}
+
+.inputFileImport input {
+  cursor: pointer; 
+}
+
+.inputFileImport:hover {
+  transform: scale(1.1);
+  background: var(--blue-200);
+  cursor: pointer;
+}
