@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import { useFluxos } from "../../store/useFluxos";
 import { AdicionarAtividadeFluxo } from "../AdicionarAtividadeFluxo/Index";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { AiFillEdit, AiFillDelete } from "react-icons/ai";
+import { VscSaveAs } from "react-icons/vsc";
+import { TbPencilCancel } from "react-icons/tb";
 import "./styles.css";
 
 export function ListaFluxos() {
@@ -10,6 +13,8 @@ export function ListaFluxos() {
 
   const fluxos = useFluxos((state) => state.fluxos);
   const removeFluxo = useFluxos((state) => state.removeFluxo);
+  const editFluxo = useFluxos((state) => state.editFluxo);
+  const editAtividade = useFluxos((state) => state.editAtividade);
   const updateAtividadeOrdem = useFluxos((state) => state.updateAtividadeOrdem);
 
   useEffect(() => {
@@ -19,7 +24,9 @@ export function ListaFluxos() {
         setAtividades(fluxo.atividades.map(atividade => ({
           id: atividade.id,
           text: atividade.text || '',
-          ordem: atividade.ordem || 0
+          ordem: atividade.ordem || 0,
+          isEdit: atividade.isEdit || false,
+          textEdit: atividade.textEdit || '',
         })));
       }
     } else {
@@ -55,16 +62,66 @@ export function ListaFluxos() {
             }`}
             onClick={() => setFluxoSelecionado(fluxo.id)}
           >
-            <span>{fluxo.nome}</span>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                removeFluxo(fluxo.id);
-              }}
-              className="removerFluxo"
-            >
-              ×
-            </button>
+            {fluxo.isEdit ? (
+              <form className="inputEdit">
+                <input
+                  type="text"
+                  value={fluxo.textEdit}
+                  onChange={(e) =>
+                    editFluxo(fluxo.id, { textEdit: e.target.value })
+                  }
+                />
+                <button
+                  className="editSave"
+                  type="submit"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    editFluxo(fluxo.id, {
+                      nome: fluxo.textEdit,
+                      isEdit: false,
+                    });
+                  }}
+                >
+                  <VscSaveAs style={{ color: "white", fontSize: "20px" }} />
+                </button>
+                <button
+                  className="editCancel"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    editFluxo(fluxo.id, {
+                      isEdit: false,
+                      textEdit: fluxo.nome,
+                    });
+                  }}
+                >
+                  <TbPencilCancel style={{ color: "white", fontSize: "20px" }} />
+                </button>
+              </form>
+            ) : (
+              <>
+                <span>{fluxo.nome}</span>
+                <div className="fluxoButtons">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      editFluxo(fluxo.id, { isEdit: true });
+                    }}
+                    className="edit"
+                  >
+                    <AiFillEdit style={{ color: "white", fontSize: "20px" }} />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      removeFluxo(fluxo.id);
+                    }}
+                    className="del"
+                  >
+                    <AiFillDelete style={{ color: "white", fontSize: "20px" }} />
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         ))}
       </div>
@@ -94,9 +151,82 @@ export function ListaFluxos() {
                             {...provided.dragHandleProps}
                             className="atividade"
                           >
-                            <div className="conteudoAtividade">
-                              <span className="textoAtividade">{atividade.text}</span>
-                            </div>
+                            {atividade.isEdit ? (
+                              <form className="inputEdit">
+                                <input
+                                  type="text"
+                                  value={atividade.textEdit}
+                                  onChange={(e) =>
+                                    editAtividade(fluxoSelecionado, atividade.id, {
+                                      textEdit: e.target.value,
+                                    })
+                                  }
+                                />
+                                <button
+                                  className="editSave"
+                                  type="submit"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    editAtividade(fluxoSelecionado, atividade.id, {
+                                      text: atividade.textEdit,
+                                      isEdit: false,
+                                    });
+                                  }}
+                                >
+                                  <VscSaveAs
+                                    style={{ color: "white", fontSize: "20px" }}
+                                  />
+                                </button>
+                                <button
+                                  className="editCancel"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    editAtividade(fluxoSelecionado, atividade.id, {
+                                      isEdit: false,
+                                      textEdit: atividade.text,
+                                    });
+                                  }}
+                                >
+                                  <TbPencilCancel
+                                    style={{ color: "white", fontSize: "20px" }}
+                                  />
+                                </button>
+                              </form>
+                            ) : (
+                              <div className="conteudoAtividade">
+                                <span className="textoAtividade">
+                                  {atividade.text}
+                                </span>
+                                <div className="atividadeButtons">
+                                  <button
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      editAtividade(fluxoSelecionado, atividade.id, {
+                                        isEdit: true,
+                                      });
+                                    }}
+                                    className="edit"
+                                  >
+                                    <AiFillEdit
+                                      style={{ color: "white", fontSize: "20px" }}
+                                    />
+                                  </button>
+                                  <button
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      editAtividade(fluxoSelecionado, atividade.id, {
+                                        isEdit: false,
+                                      });
+                                    }}
+                                    className="del"
+                                  >
+                                    <AiFillDelete
+                                      style={{ color: "white", fontSize: "20px" }}
+                                    />
+                                  </button>
+                                </div>
+                              </div>
+                            )}
                           </div>
                         )}
                       </Draggable>

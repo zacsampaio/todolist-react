@@ -15,7 +15,7 @@
 .fluxoItem {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   padding: 10px;
   margin-bottom: 10px;
   background-color: var(--background-color);
@@ -24,6 +24,15 @@
   cursor: pointer;
   transition: all 0.2s;
   color: var(--text-color);
+  min-height: 40px;
+  word-wrap: break-word;
+}
+
+.fluxoItem span {
+  flex: 1;
+  margin-right: 10px;
+  word-break: break-word;
+  white-space: normal;
 }
 
 .fluxoItem:hover {
@@ -34,6 +43,12 @@
 .fluxoItem.selecionado {
   background-color: var(--accent-color);
   color: var(--white);
+}
+
+.fluxoButtons {
+  display: flex;
+  gap: 5px;
+  flex-shrink: 0;
 }
 
 .removerFluxo {
@@ -67,7 +82,7 @@
 .atividade {
   padding: 10px;
   margin-bottom: 10px;
-  background-color: var(----background-color);
+  background-color: var(--background-color);
   border: 1px solid var(--accent-color);
   border-radius: 5px;
   cursor: move;
@@ -78,6 +93,82 @@
 .atividade:hover {
   transform: translateX(5px);
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.conteudoAtividade {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.textoAtividade {
+  flex: 1;
+  margin-right: 10px;
+  word-break: break-word;
+  white-space: normal;
+}
+
+.atividadeButtons {
+  display: flex;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.inputEdit {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.inputEdit input {
+  flex: 1;
+  padding: 5px;
+  border: 1px solid var(--accent-color);
+  border-radius: 3px;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  min-width: 0;
+  width: 100%;
+}
+
+.editSave,
+.editCancel,
+.edit,
+.del {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+}
+
+.editSave:hover {
+  background-color: var(--accent-color);
+  border-radius: 3px;
+}
+
+.editCancel:hover {
+  background-color: var(--red-100);
+  border-radius: 3px;
+}
+
+.edit:hover {
+  background-color: var(--accent-color);
+  border-radius: 3px;
+}
+
+.del:hover {
+  background-color: var(--red-100);
+  border-radius: 3px;
 }
 
 .atividade.completo {

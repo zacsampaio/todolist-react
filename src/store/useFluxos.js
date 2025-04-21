@@ -16,8 +16,10 @@ export const useFluxos = create(
               ...state.fluxos,
               {
                 id: novoId,
-                nome,
+                nome: nome.toUpperCase(),
                 atividades: [],
+                isEdit: false,
+                textEdit: nome,
               },
             ],
           };
@@ -25,6 +27,15 @@ export const useFluxos = create(
       removeFluxo: (id) =>
         set((state) => ({
           fluxos: state.fluxos.filter((fluxo) => fluxo.id !== id),
+        })),
+      editFluxo: (id, data) =>
+        set((state) => ({
+          fluxos: state.fluxos.map((fluxo) => {
+            if (fluxo.id === id) {
+              return { ...fluxo, ...data };
+            }
+            return fluxo;
+          }),
         })),
       addAtividade: (fluxoId, atividade) =>
         set((state) => {
@@ -42,6 +53,8 @@ export const useFluxos = create(
             id: novoIdAtividade,
             text: atividade.text,
             ordem: fluxo.atividades.length,
+            isEdit: false,
+            textEdit: atividade.text,
           };
 
           return {
@@ -67,6 +80,23 @@ export const useFluxos = create(
                 }
               : fluxo
           ),
+        })),
+      editAtividade: (fluxoId, atividadeId, data) =>
+        set((state) => ({
+          fluxos: state.fluxos.map((fluxo) => {
+            if (fluxo.id === fluxoId) {
+              return {
+                ...fluxo,
+                atividades: fluxo.atividades.map((atividade) => {
+                  if (atividade.id === atividadeId) {
+                    return { ...atividade, ...data };
+                  }
+                  return atividade;
+                }),
+              };
+            }
+            return fluxo;
+          }),
         })),
       updateAtividadeOrdem: (fluxoId, atividades) =>
         set((state) => ({
@@ -97,6 +127,8 @@ export const useFluxos = create(
               ...atividade,
               id: atividade.id || Date.now() + index + idx,
               ordem: atividade.ordem || idx,
+              isEdit: false,
+              textEdit: atividade.text,
             })),
           }));
           
