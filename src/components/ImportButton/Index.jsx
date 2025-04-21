@@ -1,7 +1,7 @@
 import { AiOutlineImport } from "react-icons/ai";
 import useList from "../../store/useList";
 import { useFluxos } from "../../store/useFluxos";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import ExcelJS from "exceljs";
 import { useLocation } from "react-router-dom";
 import "./styles.css"
@@ -13,18 +13,7 @@ export function ImportButton() {
   const location = useLocation()
   const isFluxosPage = location.pathname === "/fluxos"
 
-  useEffect(() => {
-    if (InputRef.current) {
-      InputRef.current.addEventListener("change", importList);
-    }
-    return () => {
-      if (InputRef.current) {
-        InputRef.current.removeEventListener("change", importList);
-      }
-    };
-  }, []);
-
-  const importList = async (evento) => {
+  const importList = useCallback(async (evento) => {
     if (evento.target.files.length) {
       const arquivo = evento.target.files[0];
 
@@ -98,20 +87,32 @@ export function ImportButton() {
         reader.readAsArrayBuffer(arquivo);
       }
     }
-  };
+  }, [addItem, addFluxo, addAtividade, fluxos, isFluxosPage]);
+
+  useEffect(() => {
+    const inputElement = InputRef.current;
+    if (inputElement) {
+      inputElement.addEventListener("change", importList);
+    }
+    return () => {
+      if (inputElement) {
+        inputElement.removeEventListener("change", importList);
+      }
+    };
+  }, [importList]);
 
   return (
-    <div className="inputFileImport">
-      <label htmlFor="fileImport" className="cursor-pointer">
-        <AiOutlineImport /> Importar
-      </label>
+    <div className="importButton">
       <input
         id="fileImport"
         type="file"
-        accept=".xlsx"
         ref={InputRef}
-        className="uploadFile"
+        accept=".xlsx"
+        style={{ display: "none" }}
       />
+      <button onClick={() => InputRef.current.click()}>
+        <AiOutlineImport style={{ color: "white", fontSize: "20px" }} /> Importar
+      </button>
     </div>
   );
 }

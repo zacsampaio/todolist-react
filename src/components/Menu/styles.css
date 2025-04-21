@@ -80,13 +80,13 @@
     letter-spacing: 2px;
   }
 
-  .menuTop,
-  .exportAndImport {
+  .menuTop{
     justify-content: center;
   }
 
   .exportAndImport {
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: flex-end;
     gap: 10px;
   }
 }
