@@ -28,6 +28,10 @@ export function ListaFluxos() {
           isEdit: atividade.isEdit || false,
           textEdit: atividade.textEdit || '',
         })));
+      } else {
+        // Se o fluxo não existe mais, limpa as atividades
+        setAtividades([]);
+        setFluxoSelecionado(null);
       }
     } else {
       setAtividades([]);
@@ -49,6 +53,14 @@ export function ListaFluxos() {
 
     setAtividades(atividadesComOrdem);
     updateAtividadeOrdem(fluxoSelecionado, atividadesComOrdem);
+  };
+
+  const handleRemoveFluxo = (fluxoId) => {
+    removeFluxo(fluxoId);
+    if (fluxoId === fluxoSelecionado) {
+      setFluxoSelecionado(null);
+      setAtividades([]);
+    }
   };
 
   return (
@@ -113,7 +125,7 @@ export function ListaFluxos() {
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      removeFluxo(fluxo.id);
+                      handleRemoveFluxo(fluxo.id);
                     }}
                     className="del"
                   >
