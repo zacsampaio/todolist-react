@@ -1,0 +1,40 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #0d0d0d;
+  min-height: var(--header-height);
+  padding: 1rem;
+  width: 100%;
+  gap: var(--menu-gap);
+  border-bottom: 2px solid var(--accent-color);
+}
+
+.header h1 {
+  font-weight: 700;
+  color: var(--accent-color);
+  text-align: center;
+  letter-spacing: 4px;
+  font-size: var(--font-size-large);
+  margin: 0;
+  margin-top: -40px;
+}
+
+.fluxos-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  height: calc(100vh - 200px);
+  display: flex;
+  flex-direction: column;
+  color: var(--white);
+  margin-top: -40px;
+}
+
+.fluxos-container h1 {
+  color: var(--accent-color);
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: var(--font-size-large);
+} 

@@ -1,0 +1,127 @@
+:root {
+  /* Cores */
+  --primary-color: #1a1a1a;
+  --secondary-color: #2a2a2a;
+  --accent-color: var(--green-200);
+  --hover-color: var(--blue-200);
+  --text-color: var(--white);
+
+  /* Medidas */
+  --header-height: 10rem;
+  --button-padding: 10px;
+  --button-radius: 50px;
+  --transition-speed: 0.3s;
+  --input-height: 40px;
+  --button-height: 40px;
+
+  /* Tipografia */
+  --font-size-base: 1rem;
+  --font-size-small: 0.9rem;
+  --font-size-large: 1.8rem;
+}
+
+/* Reset e Estilos Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+}
+
+/* Classes Utilitárias */
+.flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.gap-1 {
+  gap: 1rem;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* Estilos Base para Botões e Inputs */
+.button {
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  border: none;
+  border-radius: var(--button-radius);
+  padding: var(--button-padding);
+  height: var(--button-height);
+  min-width: 120px;
+  cursor: pointer;
+  font-size: var(--font-size-base);
+  transition: transform var(--transition-speed), background-color var(--transition-speed);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.button:hover {
+  transform: scale(1.1);
+  background-color: var(--hover-color);
+}
+
+.input {
+  height: var(--input-height);
+  padding: 0 16px;
+  border: 1px solid var(--secondary-color);
+  border-radius: var(--button-radius);
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  font-size: var(--font-size-base);
+  transition: border-color var(--transition-speed);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}
+
+.input::placeholder {
+  color: var(--white);
+  opacity: 0.7;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  :root {
+    --header-height: 8rem;
+    --button-padding: 8px;
+    --font-size-base: 0.9rem;
+    --input-height: 36px;
+    --button-height: 36px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --header-height: 6rem;
+    --button-padding: 6px;
+    --font-size-base: 0.8rem;
+    --input-height: 32px;
+    --button-height: 32px;
+  }
+} 

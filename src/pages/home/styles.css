@@ -18,82 +18,69 @@
   --white: white;
 }
 
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 body{
-  background: var(--purple-800);
+  background: var(--primary-color);
   font-family: 'Roboto', sans-serif;
   color: var(--white);
 }
 
-
 *:focus{
   outline: none;
-}
-
-.menuTop{
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-}
-
-.menuTop button{
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 1rem;
-  background-color:  var(--green-200);
-  color: var(--white);
-  border-radius: 50px;
-  padding: 10px;
-}
-
-.menuTop button:hover {
-  transform: scale(1.1);
-  background-color: var(--blue-200);
-}
-
-
-h1{
-  font-weight: 700;
-  color: var(--blue-200);
-  text-align: center;
-  letter-spacing: 4px;
 }
 
 ul{
   list-style-type: none;
 }
 
-form.addItem{
+:root {
+  --header-height: 10rem;
+  --button-padding: 10px;
+  --button-radius: 50px;
+  --transition-speed: 0.3s;
+  --menu-gap: 20px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #0d0d0d;
+  min-height: var(--header-height);
+  padding: 1rem;
+  width: 100%;
+  gap: var(--menu-gap);
+}
+
+h1 {
+  font-weight: 700;
+  color: var(--accent-color);
+  text-align: center;
+  letter-spacing: 4px;
+  font-size: var(--font-size-large);
+  margin-top: -40px;
+}
+
+.addItemAndSearch{
   display: flex;
   position: relative;
   width: 90%;
   max-width: 600px;
   height: auto;
   min-height: 3rem;
-  margin: 30px auto;
-  margin-bottom: 60px;
+  margin: -30px auto;
+  margin-bottom: 30px;
+  gap: 10px;
 }
 
-button.add{
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: var(--green-200);
-  border: none;
-  cursor: pointer;
-  padding: 10px 25px;
-  height: 62px;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
-}
-
-button.add:hover{
-  background: var(--blue-200);
-}
-
-button.filter{
-  position: absolute;
+.filter{
+  position: relative;
   border: none;
   background: var(--green-200);
   cursor: pointer;
@@ -101,14 +88,16 @@ button.filter{
   height: 62px;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
+  transition: background-color 0.3s ease;
 }
 
-button.filter:hover{
+.filter:hover{
   background: var(--blue-200);
 }
 
-.filter img{
-  width: 19px;
+.filter svg {
+  color: white;
+  font-size: 20px;
 }
 
 form.filters{
@@ -162,6 +151,7 @@ input::placeholder {
   width: 100%;
   max-width: 600px;
   margin: auto;
+  margin-top: 10px;
 }
 
 .item{
@@ -220,6 +210,7 @@ form button:focus {
   width: 20px;
   background: none;
   cursor: pointer;
+  margin: 0px 10px 0px 5px;
 }
 
 .estrela:hover{
@@ -228,8 +219,7 @@ form button:focus {
 
 .filterAberto{
   position: absolute;
-  margin-top: 60px;
-  padding: 3px;
+  margin-top: 56px;
 }
 
 .filterAberto li{
@@ -337,17 +327,7 @@ button.deleteAll:hover{
   
 }
 
-#input-addItem{
-  display: flex;
-  width: 100%;
-  height: 60px;
-  background: #2d3046;
-  border: none;
-  font-size: 16px;
-  border-radius: 12px;
-  color: var(--white);
-  text-align: center;
-}
+
 
 .iconFiltro{
   width: 20px;

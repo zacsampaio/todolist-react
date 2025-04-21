@@ -1,12 +1,10 @@
 import { useState } from "react";
-import { MenuButtons } from "../../components/Menu/Index";
+import { Menu } from "../../components/Menu/Index";
 
 import { AiFillEdit } from "react-icons/ai";
 import { AiFillDelete } from "react-icons/ai";
 import { VscSaveAs } from "react-icons/vsc";
 import { TbPencilCancel } from "react-icons/tb";
-import { MdAssignmentAdd } from "react-icons/md";
-import { MdOutlineContentPasteSearch } from "react-icons/md";
 
 import "./styles.css";
 
@@ -16,10 +14,11 @@ import IconeFiltro from "../../assets/filter.png";
 import EstrelaMarcada from "../../assets/estrela.png";
 import EstrelaNaoMarcada from "../../assets/estrelaNaoMarcada.png";
 import useList from "../../store/useList";
+import { AdicionarNovoItem } from "./components/AdicionarNovoItem/Index";
+import { MdOutlineContentPasteSearch } from "react-icons/md";
 
 export function Home() {
   const {
-    addItem,
     removeItem,
     removeAll,
     editItem,
@@ -32,20 +31,11 @@ export function Home() {
     isFilterMenuOpen,
     setIsFilterMenuOpen,
   } = useList();
-  const [newItem, setNewItem] = useState("");
+
   const [errorPriority, setErrorPriority] = useState("");
 
   // Adicionar item a lista
 
-  function adicionaItem(form) {
-    form.preventDefault();
-    if (!newItem || newItem.length === 0) {
-      return;
-    }
-    addItem(newItem);
-    setNewItem("");
-    document.getElementById("input-addItem").focus();
-  }
 
   function filtrarTarefas(e) {
     const textSearch = e.target.value;
@@ -68,32 +58,17 @@ export function Home() {
 
   return (
     <div>
-      <div className="menuTop">
-        <>
-          <MenuButtons />
-        </>
+      <div className="header">
+        <Menu />
+        <h1>LISTA DE TAREFAS</h1>
       </div>
 
-      <h1>Lista de Tarefas</h1>
-      <form onSubmit={adicionaItem} className="addItem">
+      <div className="addItemAndSearch">
         <button type="button" onClick={searchItems} className="filter">
-          <MdOutlineContentPasteSearch
-            style={{ color: "white", fontSize: "20px" }}
-          />
+          <MdOutlineContentPasteSearch />
         </button>
-        <input
-          id="input-addItem"
-          type="text"
-          value={newItem}
-          onChange={(e) => {
-            setNewItem(e.target.value);
-          }}
-          placeholder="Adicione uma tarefa"
-        />
-        <button className="add" type="submit">
-          <MdAssignmentAdd style={{ color: "white", fontSize: "20px" }} />
-        </button>
-      </form>
+        <AdicionarNovoItem />
+      </div>
 
       {isSearchVisible && (
         <form
@@ -139,7 +114,7 @@ export function Home() {
             </div>
           )}
           <button type="button" onClick={listaSuspensa}>
-            <img className="iconFiltro" src={IconeFiltro} />
+            <img className="iconFiltro" src={IconeFiltro} alt="Filtro" />
           </button>
           <input
             type={filter === "Priority" ? "number" : "text"}

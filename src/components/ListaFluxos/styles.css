@@ -1,0 +1,86 @@
+.containerFluxos {
+  display: flex;
+  gap: 20px;
+  height: calc(100vh - 200px);
+  padding: 20px;
+}
+
+.listaFluxos {
+  width: 250px;
+  overflow-y: auto;
+  border-right: 2px solid var(--accent-color);
+  padding-right: 20px;
+}
+
+.fluxoItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: var(--background-color);
+  border: 2px solid var(--accent-color);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--text-color);
+}
+
+.fluxoItem:hover {
+  transform: translateX(5px);
+  background-color: var(--hover-color);
+}
+
+.fluxoItem.selecionado {
+  background-color: var(--accent-color);
+  color: var(--white);
+}
+
+.removerFluxo {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0 5px;
+}
+
+.fluxoItem.selecionado .removerFluxo {
+  color: var(--white);
+}
+
+.conteudoFluxo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.listaAtividades {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+  background-color: var(--background-color);
+  border-radius: 5px;
+}
+
+.atividade {
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: var(----background-color);
+  border: 1px solid var(--accent-color);
+  border-radius: 5px;
+  cursor: move;
+  transition: all 0.2s;
+  color: var(--accent-color);
+}
+
+.atividade:hover {
+  transform: translateX(5px);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.atividade.completo {
+  text-decoration: line-through;
+  opacity: 0.7;
+} 
